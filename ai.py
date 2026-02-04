@@ -1,23 +1,9 @@
 import os
 import requests
-from dotenv import load_dotenv
 from itertools import cycle
+from config import GROQ_KEYS
 
-# ─── ENV ─────────────────────────────────────────────
-load_dotenv()
 
-GROQ_KEYS = [
-    os.getenv("GROQ_API_KEY_1"),
-    os.getenv("GROQ_API_KEY_2"),
-    os.getenv("GROQ_API_KEY_3"),
-    os.getenv("GROQ_API_KEY_4"),
-    os.getenv("GROQ_API_KEY_5"),
-    # os.getenv("GROQ_API_KEY_6"),
-    # os.getenv("GROQ_API_KEY_7"),
-    # os.getenv("GROQ_API_KEY_8"),
-    # os.getenv("GROQ_API_KEY_9"),
-    # os.getenv("GROQ_API_KEY_10"),
-]
 
 # remove empty keys
 GROQ_KEYS = [k for k in GROQ_KEYS if k]
@@ -28,7 +14,7 @@ API_POOL = cycle(GROQ_KEYS)
 
 # ─── AI CONFIG ──────────────────────────────────────
 SYSTEM_PROMPT = """
-You are a gojo anime chatbot.
+You are a yuki chatbot.
 Replies must be VERY SHORT (1–2 sentences).
 Playful, sarcastic, slightly rude, use can also use abusing words.
 Use emojis 😤😆

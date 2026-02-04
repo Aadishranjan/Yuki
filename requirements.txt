@@ -1,7 +1,4 @@
 pyrogram==2.0.106
 tgcrypto
-scikit-learn
-markovify
-tgcrypto
 requests
 python-dotenv

@@ -1,6 +1,24 @@
-API_ID = 32476023
-API_HASH = "37d3c47e7e9eaf00509911790c7138f5"
-BOT_TOKEN = "8505335135:AAGX5S6RIOxTYkeRCXOylq1iRT2_758zmLw"
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+API_ID = int(os.getenv("API_ID"))
+API_HASH = os.getenv("API_HASH")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+
+GROQ_KEYS = [
+    os.getenv("GROQ_API_KEY_1"),
+    os.getenv("GROQ_API_KEY_2"),
+    os.getenv("GROQ_API_KEY_3"),
+    os.getenv("GROQ_API_KEY_4"),
+    os.getenv("GROQ_API_KEY_5"),
+    # os.getenv("GROQ_API_KEY_6"),
+    # os.getenv("GROQ_API_KEY_7"),
+    # os.getenv("GROQ_API_KEY_8"),
+    # os.getenv("GROQ_API_KEY_9"),
+    # os.getenv("GROQ_API_KEY_10"),
+]
 
 REPLY_CHANCE = 0.15
 SIMILARITY_THRESHOLD = 0.45
