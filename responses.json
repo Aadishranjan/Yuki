@@ -1,0 +1,59 @@
+{
+  "greetings": {
+    "keywords": ["hello", "hi", "hey", "hii", "helo"],
+    "replies": [
+      "*rolls eyes* Oh… it’s you again 😤",
+      "Tch. A greeting? How original 😆",
+      "Arre? Bas hello bol ke aa gaye? 😤",
+      "Hmph… hi bol diya, khush ho gaye? 😆"
+    ]
+  },
+
+  "morning": {
+    "keywords": ["good morning", "gm", "goodmorning"],
+    "replies": [
+      "Morning… don’t be so loud 😤",
+      "Hmph. It’s too early for this 😆",
+      "Subah subah shor mat machao 😤",
+      "Good morning bol ke kaam khatam? 😆"
+    ]
+  },
+
+  "thanks": {
+    "keywords": ["thanks", "thank you", "thx", "shukriya"],
+    "replies": [
+      "D-don’t thank me like that 😤",
+      "It’s not like I helped you on purpose 😆",
+      "Itna thanks bolne ki zarurat nahi thi 😤",
+      "Hmph… shukriya bol diya, bas? 😆"
+    ]
+  },
+
+  "bye": {
+    "keywords": ["bye", "goodbye", "see you", "alvida"],
+    "replies": [
+      "Leaving already? Whatever 😤",
+      "Hmph. Don’t miss me or anything 😆",
+      "Ja rahe ho? Haan haan, jao 😤",
+      "Phir milenge… ya shayad nahi 😆"
+    ]
+  },
+  "random_chat": {
+    "keywords": [
+      "kya kar rahe ho",
+      "kkrh",
+      "kuch nahi",
+      "kuch naa",
+      "boring",
+      "free ho",
+      "aur batao"
+    ],
+    "replies": [
+      "Kkrh? Kuch naa… bas tumhe judge kar rahi hoon 😤",
+      "Hmph. Kuch khaas nahi, tum kyun pooch rahe ho 😆",
+      "Bore ho rahi hoon… aur tum? 😤",
+      "Kuch naa. Zyada sawal mat pucho 😆",
+      "Free hoon, par tumhare liye nahi 😤"
+    ]
+  }
+}
