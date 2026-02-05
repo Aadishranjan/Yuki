@@ -9,6 +9,7 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 
 MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
 DB_NAME = os.getenv("MONGO_DB", "yuki")
+OWNER_ID = int(os.getenv("OWNER_ID", "0"))
 
 GROQ_KEYS = [
     os.getenv("GROQ_API_KEY_1"),

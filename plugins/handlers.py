@@ -4,6 +4,7 @@ import asyncio
 import re
 from collections import defaultdict
 from pyrogram import Client, filters
+from database.db import get_groups_collection, init_db as _init_db
 from utils.responses import get_local_reply
 from ai import ask_ai
 
@@ -18,6 +19,8 @@ api_semaphore = asyncio.Semaphore(MAX_ACTIVE_REQUESTS)
 
 def register_handlers(app: Client):
     """Register all message handlers."""
+    _init_db()
+    groups = get_groups_collection()
 
     @app.on_message(filters.private & filters.text)
     async def baka_ai(_, message):
@@ -51,6 +54,12 @@ def register_handlers(app: Client):
     @app.on_message(filters.group & filters.text)
     async def group_chat(_, message):
         """Handle group chat messages."""
+        if message.chat and message.chat.id:
+            groups.update_one(
+                {"chat_id": message.chat.id},
+                {"$set": {"chat_id": message.chat.id, "title": message.chat.title}},
+                upsert=True,
+            )
         text = message.text or ""
 
         bot = await app.get_me()

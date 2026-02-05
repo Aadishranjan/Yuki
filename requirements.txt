@@ -3,3 +3,4 @@ tgcrypto
 requests
 python-dotenv
 pymongo
+psutil
