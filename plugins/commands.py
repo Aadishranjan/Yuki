@@ -124,7 +124,6 @@ def register_commands(app: Client):
             "💰 Economy Commands:\n"
             "/bal — Check wallet, rank, status, kills, gear.\n"
             "/shop — View shop items.\n"
-            "/shop buy <item_key> — Buy weapon/armor.\n"
             "/give <amount> <user or reply> — Send coins (10% tax).\n"
             "/claim — Group bonus +2000 (24h cooldown).\n"
             "/daily — Daily reward +150 (24h cooldown).\n"

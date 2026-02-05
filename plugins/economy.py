@@ -330,7 +330,6 @@ SHOP_ITEMS = {
         "life_text": "⏳ 24 Hours",
         "description": "Literal Plot Armor. You cannot die. 60% Block.",
     },
-    "medkit": {"name": "Medkit", "price": 300, "type": "item", "power": 0},
 }
 
 PROTECT_COST = 1000
@@ -669,30 +668,6 @@ def register_economy(app: Client) -> None:
 
     @app.on_message(filters.command("shop"))
     async def shop_cmd(_, message):
-        args = message.text.split()
-        if len(args) >= 3 and args[1].lower() == "buy":
-            item_key = args[2].lower()
-            item = SHOP_ITEMS.get(item_key)
-            if not item:
-                return await message.reply_text("Item not found. Use /shop to see items.")
-            user = message.from_user
-            if not user:
-                return
-            row = _get_user(users, user.id)
-            _update_username(users, user.id, user.username)
-            if row.get("coins", 0) < item["price"]:
-                return await message.reply_text("Not enough coins.")
-            users.update_one(
-                {"user_id": user.id},
-                {"$inc": {"coins": -item["price"]}},
-            )
-            inv = _load_inventory(row)
-            inv[item_key] = inv.get(item_key, 0) + 1
-            _save_inventory(users, user.id, inv)
-            return await message.reply_text(
-                f"Purchased {item['name']} for {item['price']} coins."
-            )
-
         user = message.from_user
         if not user:
             return
