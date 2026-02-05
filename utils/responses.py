@@ -30,3 +30,4 @@ def get_local_reply(text: str):
 
     return None
 
+

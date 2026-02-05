@@ -24,3 +24,4 @@ if __name__ == "__main__":
     print(f"@{me.username} is now start")
     idle()
     app.stop()
+
