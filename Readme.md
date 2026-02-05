@@ -12,8 +12,8 @@
 [![Support Group](https://img.shields.io/badge/Support%20Group-black?style=for-the-badge&logo=telegram)](https://t.me/YutaxBots)
 [![Owner](https://img.shields.io/badge/Owner-black?style=for-the-badge&logo=telegram)](https://t.me/aakshi1209)
 
-[![Forks](https://img.shields.io/github/forks/Aadishranjan/chatfight?style=for-the-badge)](https://github.com/Aadishranjan/Yuki/fork)
-[![Stars](https://img.shields.io/github/stars/Aadishranjan/chatfight?style=for-the-badge)](https://github.com/Aadishranjan/Yuki/stargazers)
+[![Forks](https://img.shields.io/github/forks/Aadishranjan/Yuki?style=for-the-badge)](https://github.com/Aadishranjan/Yuki/fork)
+[![Stars](https://img.shields.io/github/stars/Aadishranjan/Yuki?style=for-the-badge)](https://github.com/Aadishranjan/Yuki/stargazers)
 
 </div>
 
