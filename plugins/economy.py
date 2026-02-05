@@ -1037,7 +1037,7 @@ def register_economy(app: Client) -> None:
             return
         args = message.text.split()
         if len(args) < 2:
-            return await message.reply_text("Usage: /rob <amount> <user or reply>")
+            return await message.reply_text("Usage: /rob <amount> @user or reply")
         try:
             desired = int(args[1])
         except ValueError:
@@ -1063,12 +1063,10 @@ def register_economy(app: Client) -> None:
 
         if victim.get("coins", 0) <= 0:
             return await message.reply_text("Target has no coins.")
+        if victim.get("coins", 0) < desired:
+            return await message.reply_text("Target doesn't have that much money.")
 
-        success = random.random() < 0.6
-        if not success:
-            return await message.reply_text("Rob failed. Better luck next time.")
-
-        amount = min(desired, max(1, int(victim.get("coins", 0) * random.uniform(0.05, 0.15))))
+        amount = desired
         users.update_one(
             {"user_id": target.id},
             {"$inc": {"coins": -amount}},
@@ -1079,5 +1077,5 @@ def register_economy(app: Client) -> None:
         )
 
         await message.reply_text(
-            f"Rob successful! Stole {amount} coins from {target.first_name}."
+            f"{user.first_name} rob {amount} from {target.first_name}"
         )
