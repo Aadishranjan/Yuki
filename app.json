@@ -1,0 +1,73 @@
+{
+  "name": "yuki-bot",
+  "description": "Yuki Telegram bot",
+  "stack": "container",
+  "env": {
+    "BOT_TOKEN": {
+      "description": "Telegram bot token",
+      "required": true
+    },
+    "API_ID": {
+      "description": "Telegram API ID",
+      "required": true
+    },
+    "API_HASH": {
+      "description": "Telegram API hash",
+      "required": true
+    },
+    "MONGO_URI": {
+      "description": "MongoDB connection URI",
+      "required": true
+    },
+    "MONGO_DB": {
+      "description": "MongoDB database name",
+      "required": true
+    },
+    "GROQ_API_KEY_1": {
+      "description": "Groq API key 1",
+      "required": false
+    },
+    "GROQ_API_KEY_2": {
+      "description": "Groq API key 2",
+      "required": false
+    },
+    "GROQ_API_KEY_3": {
+      "description": "Groq API key 3",
+      "required": false
+    },
+    "GROQ_API_KEY_4": {
+      "description": "Groq API key 4",
+      "required": false
+    },
+    "GROQ_API_KEY_5": {
+      "description": "Groq API key 5",
+      "required": false
+    },
+    "GROQ_API_KEY_6": {
+      "description": "Groq API key 6",
+      "required": false
+    },
+    "GROQ_API_KEY_7": {
+      "description": "Groq API key 7",
+      "required": false
+    },
+    "GROQ_API_KEY_8": {
+      "description": "Groq API key 8",
+      "required": false
+    },
+    "GROQ_API_KEY_9": {
+      "description": "Groq API key 9",
+      "required": false
+    },
+    "GROQ_API_KEY_10": {
+      "description": "Groq API key 10",
+      "required": false
+    }
+  },
+  "formation": {
+    "worker": {
+      "quantity": 1,
+      "size": "standard-1x"
+    }
+  }
+}

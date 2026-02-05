@@ -1,6 +1,7 @@
 """Main entry point for Yuki bot."""
 from pyrogram import Client, idle
 from plugins.commands import register_commands
+from plugins.economy import register_economy
 from plugins.handlers import register_handlers
 from config import BOT_TOKEN, API_ID, API_HASH
 
@@ -13,6 +14,7 @@ app = Client(
 
 # ─── REGISTER PLUGINS ─────────────────────
 register_commands(app)
+register_economy(app)
 register_handlers(app)
 
 # ─── RUN BOT ──────────────────────────────

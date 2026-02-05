@@ -1,14 +1,14 @@
 {
   "triggers": [
     {
-      "keywords": ["hii"],
+      "keywords": ["yuki", "yuki hello", "baka", "nazuko", "nezuko"],
       "replies": [
         "Hii I am Yuki 😊",
         "Hii! I'm Yuki, nice to meet you! 👋"
       ]
     },
     {
-      "keywords": ["hello", "hey", "hi"],
+      "keywords": ["hello", "hey", "hii"],
       "replies": [
         "Hi there! 😊",
         "Hey! What's up? 👋"
