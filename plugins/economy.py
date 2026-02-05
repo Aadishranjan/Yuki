@@ -6,16 +6,330 @@ from datetime import datetime, timedelta, timezone
 from typing import Dict, Optional
 
 from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from database.db import get_users_collection, init_db as _init_db
 
 SHOP_ITEMS = {
-    "dagger": {"name": "Dagger", "price": 500, "type": "weapon", "power": 10},
-    "katana": {"name": "Katana", "price": 2500, "type": "weapon", "power": 25},
-    "blaster": {"name": "Blaster", "price": 7000, "type": "weapon", "power": 45},
-    "leather_armor": {"name": "Leather Armor", "price": 800, "type": "armor", "power": 8},
-    "chainmail": {"name": "Chainmail", "price": 3500, "type": "armor", "power": 20},
-    "titan_armor": {"name": "Titan Armor", "price": 12000, "type": "armor", "power": 40},
+    "stick": {
+        "name": "Stick",
+        "title": "🪵 Stick",
+        "price": 500,
+        "type": "weapon",
+        "power": 1,
+        "rarity": "⚪️ Common",
+        "buff_text": "+1% Kill Loot",
+        "life_text": "⏳ 24 Hours",
+        "description": "A deadly weapon. Increases your kill rewards by +1%.",
+    },
+    "brick": {
+        "name": "Brick",
+        "title": "🧱 Brick",
+        "price": 1000,
+        "type": "weapon",
+        "power": 2,
+        "rarity": "⚪️ Common",
+        "buff_text": "+2% Kill Loot",
+        "life_text": "⏳ 24 Hours",
+        "description": "A deadly weapon. Increases your kill rewards by +2%.",
+    },
+    "slingshot": {
+        "name": "Slingshot",
+        "title": "🪃 Slingshot",
+        "price": 2000,
+        "type": "weapon",
+        "power": 3,
+        "rarity": "⚪️ Common",
+        "buff_text": "+3% Kill Loot",
+        "life_text": "⏳ 24 Hours",
+        "description": "A deadly weapon. Increases your kill rewards by +3%.",
+    },
+    "knife": {
+        "name": "Knife",
+        "title": "🔪 Knife",
+        "price": 3500,
+        "type": "weapon",
+        "power": 5,
+        "rarity": "⚪️ Common",
+        "buff_text": "+5% Kill Loot",
+        "life_text": "⏳ 24 Hours",
+        "description": "A deadly weapon. Increases your kill rewards by +5%.",
+    },
+    "bat": {
+        "name": "Bat",
+        "title": "🏏 Bat",
+        "price": 5000,
+        "type": "weapon",
+        "power": 8,
+        "rarity": "🟢 Uncommon",
+        "buff_text": "+8% Kill Loot",
+        "life_text": "⏳ 24 Hours",
+        "description": "A deadly weapon. Increases your kill rewards by +8%.",
+    },
+    "axe": {
+        "name": "Axe",
+        "title": "🪓 Axe",
+        "price": 7500,
+        "type": "weapon",
+        "power": 10,
+        "rarity": "🟢 Uncommon",
+        "buff_text": "+10% Kill Loot",
+        "life_text": "⏳ 24 Hours",
+        "description": "A deadly weapon. Increases your kill rewards by +10%.",
+    },
+    "hammer": {
+        "name": "Hammer",
+        "title": "🔨 Hammer",
+        "price": 10000,
+        "type": "weapon",
+        "power": 12,
+        "rarity": "🟢 Uncommon",
+        "buff_text": "+12% Kill Loot",
+        "life_text": "⏳ 24 Hours",
+        "description": "A deadly weapon. Increases your kill rewards by +12%.",
+    },
+    "chainsaw": {
+        "name": "Chainsaw",
+        "title": "🪚 Chainsaw",
+        "price": 15000,
+        "type": "weapon",
+        "power": 15,
+        "rarity": "🟢 Uncommon",
+        "buff_text": "+15% Kill Loot",
+        "life_text": "⏳ 24 Hours",
+        "description": "A deadly weapon. Increases your kill rewards by +15%.",
+    },
+    "pistol": {
+        "name": "Pistol",
+        "title": "🔫 Pistol",
+        "price": 25000,
+        "type": "weapon",
+        "power": 20,
+        "rarity": "🔵 Rare",
+        "buff_text": "+20% Kill Loot",
+        "life_text": "⏳ 24 Hours",
+        "description": "A deadly weapon. Increases your kill rewards by +20%.",
+    },
+    "shotgun": {
+        "name": "Shotgun",
+        "title": "🧨 Shotgun",
+        "price": 40000,
+        "type": "weapon",
+        "power": 25,
+        "rarity": "🔵 Rare",
+        "buff_text": "+25% Kill Loot",
+        "life_text": "⏳ 24 Hours",
+        "description": "A deadly weapon. Increases your kill rewards by +25%.",
+    },
+    "uzi": {
+        "name": "Uzi",
+        "title": "🔫 Uzi",
+        "price": 55000,
+        "type": "weapon",
+        "power": 30,
+        "rarity": "🔵 Rare",
+        "buff_text": "+30% Kill Loot",
+        "life_text": "⏳ 24 Hours",
+        "description": "A deadly weapon. Increases your kill rewards by +30%.",
+    },
+    "katana": {
+        "name": "Katana",
+        "title": "⚔️ Katana",
+        "price": 75000,
+        "type": "weapon",
+        "power": 35,
+        "rarity": "🔵 Rare",
+        "buff_text": "+35% Kill Loot",
+        "life_text": "⏳ 24 Hours",
+        "description": "A deadly weapon. Increases your kill rewards by +35%.",
+    },
+    "ak_47": {
+        "name": "AK-47",
+        "title": "💥 AK-47",
+        "price": 100000,
+        "type": "weapon",
+        "power": 40,
+        "rarity": "🟣 Epic",
+        "buff_text": "+40% Kill Loot",
+        "life_text": "⏳ 24 Hours",
+        "description": "A deadly weapon. Increases your kill rewards by +40%.",
+    },
+    "minigun": {
+        "name": "Minigun",
+        "title": "🔥 Minigun",
+        "price": 150000,
+        "type": "weapon",
+        "power": 45,
+        "rarity": "🟣 Epic",
+        "buff_text": "+45% Kill Loot",
+        "life_text": "⏳ 24 Hours",
+        "description": "A deadly weapon. Increases your kill rewards by +45%.",
+    },
+    "sniper": {
+        "name": "Sniper",
+        "title": "🎯 Sniper",
+        "price": 200000,
+        "type": "weapon",
+        "power": 50,
+        "rarity": "🟣 Epic",
+        "buff_text": "+50% Kill Loot",
+        "life_text": "⏳ 24 Hours",
+        "description": "A deadly weapon. Increases your kill rewards by +50%.",
+    },
+    "rpg": {
+        "name": "RPG",
+        "title": "🚀 RPG",
+        "price": 300000,
+        "type": "weapon",
+        "power": 55,
+        "rarity": "🟣 Epic",
+        "buff_text": "+55% Kill Loot",
+        "life_text": "⏳ 24 Hours",
+        "description": "A deadly weapon. Increases your kill rewards by +55%.",
+    },
+    "tank": {
+        "name": "Tank",
+        "title": "🚜 Tank",
+        "price": 500000,
+        "type": "weapon",
+        "power": 57,
+        "rarity": "🟣 Epic",
+        "buff_text": "+57% Kill Loot",
+        "life_text": "⏳ 24 Hours",
+        "description": "A deadly weapon. Increases your kill rewards by +57%.",
+    },
+    "laser": {
+        "name": "Laser",
+        "title": "⚡ Laser",
+        "price": 800000,
+        "type": "weapon",
+        "power": 59,
+        "rarity": "🟣 Epic",
+        "buff_text": "+59% Kill Loot",
+        "life_text": "⏳ 24 Hours",
+        "description": "A deadly weapon. Increases your kill rewards by +59%.",
+    },
+    "death_note": {
+        "name": "Death Note",
+        "title": "📓 Death Note",
+        "price": 5000000,
+        "type": "weapon",
+        "power": 60,
+        "rarity": "🟡 Legendary",
+        "buff_text": "+60% Kill Loot",
+        "life_text": "⏳ 24 Hours",
+        "description": "Writes names. Deletes people. 60% Kill Buff.",
+    },
+    "cloth": {
+        "name": "Cloth",
+        "title": "👕 Cloth",
+        "price": 2500,
+        "type": "armor",
+        "power": 5,
+        "rarity": "⚪️ Common",
+        "defense_text": "5% Block Chance",
+        "life_text": "⏳ 24 Hours",
+        "description": "Protective gear. Gives a 5% chance to block any robbery attempt.",
+    },
+    "leather": {
+        "name": "Leather",
+        "title": "🧥 Leather",
+        "price": 8000,
+        "type": "armor",
+        "power": 8,
+        "rarity": "🟢 Uncommon",
+        "defense_text": "8% Block Chance",
+        "life_text": "⏳ 24 Hours",
+        "description": "Protective gear. Gives a 8% chance to block any robbery attempt.",
+    },
+    "chain": {
+        "name": "Chain",
+        "title": "⛓️ Chain",
+        "price": 20000,
+        "type": "armor",
+        "power": 10,
+        "rarity": "🔵 Rare",
+        "defense_text": "10% Block Chance",
+        "life_text": "⏳ 24 Hours",
+        "description": "Protective gear. Gives a 10% chance to block any robbery attempt.",
+    },
+    "riot_shield": {
+        "name": "Riot Shield",
+        "title": "🛡️ Riot Shield",
+        "price": 40000,
+        "type": "armor",
+        "power": 15,
+        "rarity": "🔵 Rare",
+        "defense_text": "15% Block Chance",
+        "life_text": "⏳ 24 Hours",
+        "description": "Protective gear. Gives a 15% chance to block any robbery attempt.",
+    },
+    "diamond": {
+        "name": "Diamond",
+        "title": "💎 Diamond",
+        "price": 200000,
+        "type": "armor",
+        "power": 30,
+        "rarity": "🟣 Epic",
+        "defense_text": "30% Block Chance",
+        "life_text": "⏳ 24 Hours",
+        "description": "Protective gear. Gives a 30% chance to block any robbery attempt.",
+    },
+    "obsidian": {
+        "name": "Obsidian",
+        "title": "⚫️ Obsidian",
+        "price": 400000,
+        "type": "armor",
+        "power": 35,
+        "rarity": "🟣 Epic",
+        "defense_text": "35% Block Chance",
+        "life_text": "⏳ 24 Hours",
+        "description": "Protective gear. Gives a 35% chance to block any robbery attempt.",
+    },
+    "nano_suit": {
+        "name": "Nano Suit",
+        "title": "🧬 Nano Suit",
+        "price": 700000,
+        "type": "armor",
+        "power": 40,
+        "rarity": "🟣 Epic",
+        "defense_text": "40% Block Chance",
+        "life_text": "⏳ 24 Hours",
+        "description": "Protective gear. Gives a 40% chance to block any robbery attempt.",
+    },
+    "vibranium": {
+        "name": "Vibranium",
+        "title": "🛡️ Vibranium",
+        "price": 1500000,
+        "type": "armor",
+        "power": 50,
+        "rarity": "🟡 Legendary",
+        "defense_text": "50% Block Chance",
+        "life_text": "⏳ 24 Hours",
+        "description": "Protective gear. Gives a 50% chance to block any robbery attempt.",
+    },
+    "forcefield": {
+        "name": "Forcefield",
+        "title": "🔮 Forcefield",
+        "price": 3000000,
+        "type": "armor",
+        "power": 55,
+        "rarity": "🟡 Legendary",
+        "defense_text": "55% Block Chance",
+        "life_text": "⏳ 24 Hours",
+        "description": "Protective gear. Gives a 55% chance to block any robbery attempt.",
+    },
+    "plot_armor": {
+        "name": "Plot Armor",
+        "title": "🎬 Plot Armor",
+        "price": 10000000,
+        "type": "armor",
+        "power": 60,
+        "rarity": "🔴 GODLY",
+        "defense_text": "60% Block Chance",
+        "life_text": "⏳ 24 Hours",
+        "description": "Literal Plot Armor. You cannot die. 60% Block.",
+    },
     "medkit": {"name": "Medkit", "price": 300, "type": "item", "power": 0},
 }
 
@@ -124,6 +438,188 @@ def register_economy(app: Client) -> None:
     _init_db()
     users = get_users_collection()
 
+    ARMOR_KEYS = [
+        "cloth",
+        "leather",
+        "chain",
+        "riot_shield",
+        "diamond",
+        "obsidian",
+        "nano_suit",
+        "vibranium",
+        "forcefield",
+        "plot_armor",
+    ]
+    WEAPON_KEYS = [
+        "stick",
+        "brick",
+        "slingshot",
+        "knife",
+        "bat",
+        "axe",
+        "hammer",
+        "chainsaw",
+        "pistol",
+        "shotgun",
+        "uzi",
+        "katana",
+        "ak_47",
+        "minigun",
+        "sniper",
+        "rpg",
+        "tank",
+        "laser",
+        "death_note",
+    ]
+
+    def _shop_main_text(user_name: str, coins: int) -> str:
+        return (
+            "🛒 𝐌𝐚𝐫𝐢𝐞 𝐌𝐚𝐫𝐤𝐞𝐭𝐩𝐥𝐚𝐜𝐞\n\n"
+            f"👤 Customer: {user_name}\n"
+            f"👛 Wallet: ${coins}\n\n"
+            "Select a category to browse our goods!"
+        )
+
+    def _shop_main_markup() -> InlineKeyboardMarkup:
+        return InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton("🛡️ Amor", callback_data="shop_cat_armor"),
+                    InlineKeyboardButton("⚔️ Weapon", callback_data="shop_cat_weapon"),
+                ]
+            ]
+        )
+
+    def _armor_list_text(coins: int, page: int, total_pages: int) -> str:
+        return (
+            "🛡️ 𝐃𝐞𝐟𝐞𝐧𝐬𝐞 𝐒𝐲𝐬𝐭𝐞𝐦𝐬\n"
+            "Protection against thieves.\n\n"
+            f"💰 Balance: ${coins}\n"
+            f"📄 Page: {page + 1}/{total_pages}"
+        )
+
+    def _weapon_list_text(coins: int, page: int, total_pages: int) -> str:
+        return (
+            "⚔️ 𝐖𝐞𝐚𝐩𝐨𝐧 𝐒𝐲𝐬𝐭𝐞𝐦𝐬\n"
+            "Choose your weapon.\n\n"
+            f"💰 Balance: ${coins}\n"
+            f"📄 Page: {page + 1}/{total_pages}"
+        )
+
+    def _weapon_item_text(item_key: str, coins: int, note: Optional[str] = None) -> str:
+        item = SHOP_ITEMS[item_key]
+        note_text = f"\n\n{note}" if note else ""
+        title = item.get("title") or f"🛍️ {item['name']}"
+        return (
+            f"{title}\n"
+            "━━━━━━━━━━━━━━━━━━\n"
+            f"📖 {item['description']}\n"
+            "━━━━━━━━━━━━━━━━━━\n"
+            f"💰 Price: ${item['price']:,}\n"
+            f"🌟 Rarity: {item['rarity']}\n"
+            f"💥 Buff: {item['buff_text']}\n"
+            f"⏱️ Life: {item['life_text']}\n\n"
+            f"👛 Your Wallet: ${coins}"
+            f"{note_text}"
+        )
+
+    def _weapon_item_markup(item_key: str, can_buy: bool) -> InlineKeyboardMarkup:
+        rows = []
+        if can_buy:
+            rows.append([InlineKeyboardButton("✅ Buy", callback_data=f"shop_buy_{item_key}")])
+        else:
+            rows.append([InlineKeyboardButton("❌ Can't Afford", callback_data="shop_weapon_noop")])
+        rows.append([InlineKeyboardButton("🔙 Back", callback_data="shop_cat_weapon")])
+        return InlineKeyboardMarkup(rows)
+
+    def _armor_list_markup(page: int) -> InlineKeyboardMarkup:
+        page_size = 4
+        total_pages = max(1, (len(ARMOR_KEYS) + page_size - 1) // page_size)
+        page = max(0, min(page, total_pages - 1))
+
+        start = page * page_size
+        end = start + page_size
+        page_keys = ARMOR_KEYS[start:end]
+
+        rows = []
+        row = []
+        for key in page_keys:
+            item = SHOP_ITEMS[key]
+            row.append(InlineKeyboardButton(item["title"], callback_data=f"shop_armor_{key}"))
+            if len(row) == 2:
+                rows.append(row)
+                row = []
+        if row:
+            rows.append(row)
+        left_cb = f"shop_armor_page_{page - 1}" if page > 0 else "shop_armor_noop"
+        right_cb = f"shop_armor_page_{page + 1}" if page < total_pages - 1 else "shop_armor_noop"
+        rows.append(
+            [
+                InlineKeyboardButton("⬅️", callback_data=left_cb),
+                InlineKeyboardButton("🔙 Back", callback_data="shop_back_main"),
+                InlineKeyboardButton("➡️", callback_data=right_cb),
+            ]
+        )
+        return InlineKeyboardMarkup(rows)
+
+    def _weapon_list_markup(page: int) -> InlineKeyboardMarkup:
+        page_size = 4
+        total_pages = max(1, (len(WEAPON_KEYS) + page_size - 1) // page_size)
+        page = max(0, min(page, total_pages - 1))
+
+        start = page * page_size
+        end = start + page_size
+        page_keys = WEAPON_KEYS[start:end]
+
+        rows = []
+        row = []
+        for key in page_keys:
+            item = SHOP_ITEMS[key]
+            label = item.get("title") or item["name"]
+            row.append(InlineKeyboardButton(label, callback_data=f"shop_weapon_{key}"))
+            if len(row) == 2:
+                rows.append(row)
+                row = []
+        if row:
+            rows.append(row)
+
+        left_cb = f"shop_weapon_page_{page - 1}" if page > 0 else "shop_weapon_noop"
+        right_cb = f"shop_weapon_page_{page + 1}" if page < total_pages - 1 else "shop_weapon_noop"
+        rows.append(
+            [
+                InlineKeyboardButton("⬅️", callback_data=left_cb),
+                InlineKeyboardButton("🔙 Back", callback_data="shop_back_main"),
+                InlineKeyboardButton("➡️", callback_data=right_cb),
+            ]
+        )
+        return InlineKeyboardMarkup(rows)
+
+    def _armor_item_text(item_key: str, coins: int, note: Optional[str] = None) -> str:
+        item = SHOP_ITEMS[item_key]
+        note_text = f"\n\n{note}" if note else ""
+        title = item.get("title") or f"🛍️ {item['name']}"
+        return (
+            f"{title}\n"
+            "━━━━━━━━━━━━━━━━━━\n"
+            f"📖 {item['description']}\n"
+            "━━━━━━━━━━━━━━━━━━\n"
+            f"💰 Price: ${item['price']:,}\n"
+            f"🌟 Rarity: {item['rarity']}\n"
+            f"🛡️ Defense: {item['defense_text']}\n"
+            f"⏱️ Life: {item['life_text']}\n\n"
+            f"👛 Your Wallet: ${coins}"
+            f"{note_text}"
+        )
+
+    def _armor_item_markup(item_key: str, can_buy: bool) -> InlineKeyboardMarkup:
+        rows = []
+        if can_buy:
+            rows.append([InlineKeyboardButton("✅ Buy", callback_data=f"shop_buy_{item_key}")])
+        else:
+            rows.append([InlineKeyboardButton("❌ Can't Afford", callback_data="shop_armor_noop")])
+        rows.append([InlineKeyboardButton("🔙 Back", callback_data="shop_cat_armor")])
+        return InlineKeyboardMarkup(rows)
+
     @app.on_message(filters.command("bal"))
     async def bal_cmd(_, message):
         target_user = message.from_user
@@ -197,16 +693,181 @@ def register_economy(app: Client) -> None:
                 f"Purchased {item['name']} for {item['price']} coins."
             )
 
-        items_list = "\n".join(
-            f"- {v['name']} ({v['type']}) — {v['price']} coins"
-            for v in SHOP_ITEMS.values()
-        )
+        user = message.from_user
+        if not user:
+            return
+        row = _get_user(users, user.id)
+        _update_username(users, user.id, user.username)
+        coins = row.get("coins", 0)
         await message.reply_text(
-            "Shop items:\n"
-            f"{items_list}\n\n"
-            "To buy: /shop buy <item_key>\n"
-            "Example: /shop buy katana"
+            _shop_main_text(user.first_name or "𝐘ᴜᴛᴀ", coins),
+            reply_markup=_shop_main_markup(),
         )
+
+    @app.on_callback_query(filters.regex("^shop_back_main$"))
+    async def shop_back_main_cb(_, callback_query):
+        await callback_query.answer()
+        user = callback_query.from_user
+        if not user:
+            return
+        row = _get_user(users, user.id)
+        _update_username(users, user.id, user.username)
+        coins = row.get("coins", 0)
+        await callback_query.message.edit_text(
+            _shop_main_text(user.first_name or "𝐘ᴜᴛᴀ", coins),
+            reply_markup=_shop_main_markup(),
+        )
+
+    @app.on_callback_query(filters.regex("^shop_cat_armor$"))
+    async def shop_cat_armor_cb(_, callback_query):
+        await callback_query.answer()
+        user = callback_query.from_user
+        if not user:
+            return
+        row = _get_user(users, user.id)
+        _update_username(users, user.id, user.username)
+        coins = row.get("coins", 0)
+        total_pages = max(1, (len(ARMOR_KEYS) + 4 - 1) // 4)
+        await callback_query.message.edit_text(
+            _armor_list_text(coins, 0, total_pages),
+            reply_markup=_armor_list_markup(0),
+        )
+
+    @app.on_callback_query(filters.regex("^shop_armor_page_(\\d+)$"))
+    async def shop_armor_page_cb(_, callback_query):
+        await callback_query.answer()
+        user = callback_query.from_user
+        if not user:
+            return
+        page = int(callback_query.data.split("_")[-1])
+        row = _get_user(users, user.id)
+        _update_username(users, user.id, user.username)
+        coins = row.get("coins", 0)
+        total_pages = max(1, (len(ARMOR_KEYS) + 4 - 1) // 4)
+        await callback_query.message.edit_text(
+            _armor_list_text(coins, page, total_pages),
+            reply_markup=_armor_list_markup(page),
+        )
+
+    @app.on_callback_query(filters.regex("^shop_armor_noop$"))
+    async def shop_armor_noop_cb(_, callback_query):
+        await callback_query.answer()
+
+    @app.on_callback_query(filters.regex("^shop_cat_weapon$"))
+    async def shop_cat_weapon_cb(_, callback_query):
+        await callback_query.answer()
+        user = callback_query.from_user
+        if not user:
+            return
+        row = _get_user(users, user.id)
+        _update_username(users, user.id, user.username)
+        coins = row.get("coins", 0)
+        total_pages = max(1, (len(WEAPON_KEYS) + 4 - 1) // 4)
+        await callback_query.message.edit_text(
+            _weapon_list_text(coins, 0, total_pages),
+            reply_markup=_weapon_list_markup(0),
+        )
+
+    @app.on_callback_query(filters.regex("^shop_weapon_page_(\\d+)$"))
+    async def shop_weapon_page_cb(_, callback_query):
+        await callback_query.answer()
+        user = callback_query.from_user
+        if not user:
+            return
+        page = int(callback_query.data.split("_")[-1])
+        row = _get_user(users, user.id)
+        _update_username(users, user.id, user.username)
+        coins = row.get("coins", 0)
+        total_pages = max(1, (len(WEAPON_KEYS) + 4 - 1) // 4)
+        await callback_query.message.edit_text(
+            _weapon_list_text(coins, page, total_pages),
+            reply_markup=_weapon_list_markup(page),
+        )
+
+    @app.on_callback_query(filters.regex("^shop_weapon_noop$"))
+    async def shop_weapon_noop_cb(_, callback_query):
+        await callback_query.answer()
+
+    @app.on_callback_query(filters.regex("^shop_weapon_(.+)$"))
+    async def shop_weapon_item_cb(_, callback_query):
+        await callback_query.answer()
+        user = callback_query.from_user
+        if not user:
+            return
+        match = callback_query.data.split("shop_weapon_", 1)[-1]
+        if match not in SHOP_ITEMS or SHOP_ITEMS[match].get("type") != "weapon":
+            return await callback_query.answer("Item not found.")
+        row = _get_user(users, user.id)
+        _update_username(users, user.id, user.username)
+        coins = row.get("coins", 0)
+        can_buy = coins >= SHOP_ITEMS[match]["price"]
+        await callback_query.message.edit_text(
+            _weapon_item_text(match, coins),
+            reply_markup=_weapon_item_markup(match, can_buy),
+        )
+
+    @app.on_callback_query(filters.regex("^shop_armor_(.+)$"))
+    async def shop_armor_item_cb(_, callback_query):
+        await callback_query.answer()
+        user = callback_query.from_user
+        if not user:
+            return
+        match = callback_query.data.split("shop_armor_", 1)[-1]
+        if match not in SHOP_ITEMS or SHOP_ITEMS[match].get("type") != "armor":
+            return await callback_query.answer("Item not found.")
+        row = _get_user(users, user.id)
+        _update_username(users, user.id, user.username)
+        coins = row.get("coins", 0)
+        can_buy = coins >= SHOP_ITEMS[match]["price"]
+        await callback_query.message.edit_text(
+            _armor_item_text(match, coins),
+            reply_markup=_armor_item_markup(match, can_buy),
+        )
+
+    @app.on_callback_query(filters.regex("^shop_buy_(.+)$"))
+    async def shop_buy_item_cb(_, callback_query):
+        await callback_query.answer()
+        user = callback_query.from_user
+        if not user:
+            return
+        item_key = callback_query.data.split("shop_buy_", 1)[-1]
+        item = SHOP_ITEMS.get(item_key)
+        if not item or item.get("type") not in {"armor", "weapon"}:
+            return await callback_query.answer("Item not found.")
+        row = _get_user(users, user.id)
+        _update_username(users, user.id, user.username)
+        coins = row.get("coins", 0)
+        if coins < item["price"]:
+            if item["type"] == "armor":
+                await callback_query.message.edit_text(
+                    _armor_item_text(item_key, coins, note="❌ Not enough money."),
+                    reply_markup=_armor_item_markup(item_key, False),
+                )
+            else:
+                await callback_query.message.edit_text(
+                    _weapon_item_text(item_key, coins, note="❌ Not enough money."),
+                    reply_markup=_weapon_item_markup(item_key, False),
+                )
+            return
+
+        users.update_one(
+            {"user_id": user.id},
+            {"$inc": {"coins": -item["price"]}},
+        )
+        inv = _load_inventory(row)
+        inv[item_key] = inv.get(item_key, 0) + 1
+        _save_inventory(users, user.id, inv)
+        new_coins = coins - item["price"]
+        if item["type"] == "armor":
+            await callback_query.message.edit_text(
+                _armor_item_text(item_key, new_coins, note="✅ Purchased."),
+                reply_markup=_armor_item_markup(item_key, False),
+            )
+        else:
+            await callback_query.message.edit_text(
+                _weapon_item_text(item_key, new_coins, note="✅ Purchased."),
+                reply_markup=_weapon_item_markup(item_key, False),
+            )
 
     @app.on_message(filters.command("give"))
     async def give_cmd(app: Client, message):

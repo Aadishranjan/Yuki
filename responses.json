@@ -8,7 +8,7 @@
       ]
     },
     {
-      "keywords": ["hello", "hey", "hii"],
+      "keywords": ["hello", "hey"],
       "replies": [
         "Hi there! 😊",
         "Hey! What's up? 👋"
@@ -22,7 +22,7 @@
       ]
     },
     {
-      "keywords": ["bye", "goodbye", "see you"],
+      "keywords": ["bye", "goodbye"],
       "replies": [
         "Bye! Take care! 👋",
         "See you later! 😊"
