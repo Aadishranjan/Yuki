@@ -6,7 +6,7 @@ import sys
 import time
 import psutil
 from dotenv import load_dotenv
-from config import OWNER_ID
+from config import OWNER_ID, UPDATE_CHANNEL
 from database.db import get_sudoers_collection, get_users_collection, get_groups_collection, init_db as _init_db
 
 load_dotenv()
@@ -51,8 +51,8 @@ def register_commands(app: Client):
                     ),
                 ],
                 [
-                    InlineKeyboardButton("ᴏᴡɴᴇʀ", user_id=7525763142),
-                    InlineKeyboardButton("📣 ᴄʜᴀɴɴᴇʟ", url="https://t.me/Bot_X_Galaxy"),
+                    InlineKeyboardButton("ᴏᴡɴᴇʀ", user_id=OWNER_ID),
+                    InlineKeyboardButton("📣 ᴄʜᴀɴɴᴇʟ", url=f"https://t.me/{UPDATE_CHANNEL}"),
                 ],
                 [
                     InlineKeyboardButton("ꜰᴜɴᴄᴛɪᴏɴꜱ + ᴄᴏᴍᴍᴀɴᴅꜱ", callback_data="help_menu_from_start"),

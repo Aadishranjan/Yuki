@@ -59,6 +59,8 @@
 | `/start` | Begin your RPG journey |
 | `/stats` | View your stats |
 | `/help` | View help menu |
+| `/ping` | View server stats |
+| `/restart` | To restart the bot |
 
 ---
 
@@ -69,6 +71,8 @@ API_HASH=
 BOT_TOKEN=
 MONGO_URI=
 MONGO_DB=yuki
+OWNER_ID=
+UPDATE_CHANNEL=
 GROQ_API_KEY_1=
 GROQ_API_KEY_2=
 GROQ_API_KEY_3=
